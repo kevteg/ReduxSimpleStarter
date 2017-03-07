@@ -12,12 +12,15 @@ class SearchBar extends Component{
     //The idea is that the state is the one who changes the component
     return (
       <div>
-
         <input
           value={this.state.term}
-          onChange={event => this.setState({term: event.target.value})} />
+          onChange={event => this.textChanged(event)} />
       </div>
     );
+  }
+  textChanged(event){
+    this.setState({term: event.target.value});
+    this.props.onTextChange(this.state.term);
   }
 }
 export default SearchBar;
