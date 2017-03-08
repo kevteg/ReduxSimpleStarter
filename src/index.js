@@ -1,4 +1,5 @@
 //ONE COMPONENT PER FILE
+import _ from 'lodash';
 import React, {Component} from 'react';
 //This is what puts it in the dom
 import ReactDOM from 'react-dom';
@@ -18,24 +19,30 @@ class App extends Component{
     this.state = { videos: [],
                    selectedVideo: null,
                    query: 'steven universe'};
+
+  }
+
+  newSearch(query = ''){
+    this.setState({query});
     YTSearch({key: API_KEY, term: this.state.query}, videos => {
       this.setState({ videos: videos, selectedVideo: videos[0]});
     });
   }
-  newSearch(query){
-    this.setState({query})
-    YTSearch({key: API_KEY, term: this.state.query}, videos => {
-      this.setState({ videos: videos, selectedVideo: videos[0]});
-    });
+  componentWillMount(){
+    this.newSearch();
   }
   render(){
+    const videoSearch = _.debounce(((query) => {this.newSearch(query)}), 300)
+    // const videoSearch = (query) => {this.newSearch(query)}
     return (
-      <div>
-        <SearchBar onTextChange={query => this.newSearch(query)} />
-        <VideoDetail video={this.state.selectedVideo}/>
-        <VideoList
-         onVideoSelect={selectedVideo => this.setState({selectedVideo})}
-         videos={this.state.videos} />
+      <div >
+        <SearchBar onTextChange={videoSearch} />
+        <div className="row">
+          <VideoDetail video={this.state.selectedVideo}/>
+          <VideoList
+           onVideoSelect={selectedVideo => this.setState({selectedVideo})}
+           videos={this.state.videos} />
+         </div>
       </div>
     );
   }

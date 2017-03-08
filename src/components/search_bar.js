@@ -11,8 +11,9 @@ class SearchBar extends Component{
     //To see changed state
     //The idea is that the state is the one who changes the component
     return (
-      <div>
+      <div >
         <input
+          className="search-bar"
           value={this.state.term}
           onChange={event => this.textChanged(event)} />
       </div>
@@ -20,7 +21,7 @@ class SearchBar extends Component{
   }
   textChanged(event){
     this.setState({term: event.target.value});
-    this.props.onTextChange(this.state.term);
+    this.props.onTextChange(event.target.value);
   }
 }
 export default SearchBar;

@@ -12,9 +12,11 @@ const VideoList = (props) => {
 
   return (
     //React is very good at rendering components lists
-     <ul className="col-md-4 list-group">
+    <div className="col-lg-6">
+     <ul className="list-group">
      {videoItems}
     </ul>
+    </div>
   );
 };
 export default VideoList;
